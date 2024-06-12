@@ -1,6 +1,16 @@
 # app.py
 from flask import Flask, render_template
 from db import db
+from apis import user_api
+
+app = Flask(__name__)
+
+# 데이터베이스 설정
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# SQLAlchemy 객체 초기화
+db.init_app(app)
 
 
 def create_app():

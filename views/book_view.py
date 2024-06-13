@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from model import Book, User
 
-book_bp = Blueprint('books', __name__)
+book_view_bp = Blueprint('book_view', __name__)
 
-
-@book_bp.route('/books', methods=['GET'])
+@book_view_bp.route('/books')
 def get_users():
     user_id = request.args.get("user_id", "")
     

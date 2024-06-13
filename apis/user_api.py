@@ -13,17 +13,15 @@ def register_user():
     phone_number = data.get('phone_number')
 
     if not all([nickname, email, password, phone_number]):
-        return jsonify({"error": "Incomplete user information"}), 400
-
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        return jsonify({"error": "Email already exists"}), 400
+        return jsonify({"error": "Missing required fields"}), 400
 
     new_user = User(nickname=nickname, email=email, password=password, phone_number=phone_number)
+
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"message": "User created successfully"}), 201
+    return jsonify({"message": "User registered successfully"}), 201
+
 
 @user_bp.route('/user', methods=['GET'])
 def users_info():
@@ -37,7 +35,6 @@ def users_info():
             'user_id': user.user_id,
             'nickname': user.nickname,
             'email': user.email,
-            'password': user.password,
             'phone_number': user.phone_number
         }
         user_list.append(user_data)
@@ -62,19 +59,18 @@ def get_userInfo(user_id):
 
     return jsonify(user_info), 200
 
+from werkzeug.security import generate_password_hash
+
 @user_bp.route('/user/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
-
     data = request.json
     nickname = data.get('nickname')
     email = data.get('email')
     password = data.get('password')
     phone_number = data.get('phone_number')
 
-
     if not any([nickname, email, password, phone_number]):
         return jsonify({"error": "No update information provided"}), 400
-
 
     user = User.query.get(user_id)
     if not user:
@@ -85,7 +81,7 @@ def update_user(user_id):
     if email:
         user.email = email
     if password:
-        user.password = password
+        user.password = generate_password_hash(password)
     if phone_number:
         user.phone_number = phone_number
 
@@ -106,3 +102,5 @@ def user_secession(user_id):
     db.session.commit()
 
     return jsonify({"message": "user secession successfully"}), 200
+
+

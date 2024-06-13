@@ -2,10 +2,10 @@ from flask import Blueprint, render_template, request, jsonify, redirect, url_fo
 from model import User, Book
 from db import db
 
-user_bp = Blueprint('users', __name__)
+user_view_bp = Blueprint('user_view', __name__)
 
-@user_bp.route('/user/register_user', methods=['POST'])
-def register_user():
+@user_view_bp.route('/users')
+def get_users():
 
     nickname = request.form['nickname']
     email = request.form['email']

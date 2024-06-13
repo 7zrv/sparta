@@ -1,3 +1,6 @@
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from db import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,8 +10,7 @@ class User(UserMixin, db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    # renamed to _password
-    password = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(255), nullable=False)     # renamed to _password
     phone_number = db.Column(db.String(20), nullable=False)
     books = db.relationship('Book', backref='user', lazy=True)
 
@@ -37,7 +39,6 @@ class User(UserMixin, db.Model):
             "phone_number": self.phone_number,
             "books": [book.serialize() for book in self.books]
         }
-
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)

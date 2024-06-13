@@ -101,3 +101,17 @@ def delete_book(book_id):
     db.session.commit()
 
     return jsonify({"message": "Book deleted successfully"}), 200
+
+
+@book_bp.route('/book/rent/<int:book_id>', methods=['PATCH'])
+def book_rent(book_id):
+    book = Book.query.get(book_id)
+
+    if not book:
+        return jsonify({"error": "Data not found"}), 404
+
+    book.rental = not book.rental
+
+    db.session.commit()
+
+    return jsonify({"message": "Book updated successfully"}), 200

@@ -42,7 +42,7 @@ def login():
     if not find_user:
         return jsonify({"error": "email or password is incorrect."}), 400
     
-    return redirect(url_for('book_view.get_users', user_id=find_user.user_id))
+    return redirect(url_for('books.get_users', user_id=find_user.user_id))
 
 @user_view_bp.route('/user/<int:user_id>', methods=['POST'])
 def update_user(user_id):
@@ -70,4 +70,4 @@ def update_user(user_id):
 
     db.session.commit()
 
-    return redirect(url_for('book_view.get_users'))
+    return redirect(url_for('books.get_users'))

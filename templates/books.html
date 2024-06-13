@@ -129,48 +129,41 @@
         </div>
 
         <!-- createBookModal -->
-        {% if context.user %}
-            <div class="modal fade" id="createBookModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="createBookModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">도서 등록</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">최애 음악</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="{{ url_for('book_view.book_create', user_id=context.user.user_id) }}">
+                        <form>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">제목</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="title"
+                                <label for="exampleInputEmail1" class="form-label">유저</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">사용자(추천인)의 이름을 넣어주세요.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">저자</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" name="author">
+                                <label for="exampleInputPassword1" class="form-label">노래 제목</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1">
+                                <div id="emailHelp" class="form-text">좋아하는 노래 제목을 넣어주세요.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">책 소개</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" name="book_info">
-                                <div id="emailHelp" class="form-text">간단하게 한줄로 입력해주세요.</div>
+                                <label for="exampleInputPassword1" class="form-label">가수</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">주제</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" name="subject">
-                                <div id="emailHelp" class="form-text">간단한 단어로 입력해주세요.</div>
+                                <label for="exampleInputPassword1" class="form-label">앨범 커버URL</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1">
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">북커버 URL</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" name="img_url">
-                                <div id="emailHelp" class="form-text">교보문고 북커버 이미지 URL</div>
-                            </div>
-                            <button type="submit" class="btn btn-danger">추가</button>
+                            <button type="submit" class="btn btn-danger">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        {% endif %}
 
         <!-- loginModal -->
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">

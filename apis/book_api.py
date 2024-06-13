@@ -115,3 +115,32 @@ def book_rent(book_id):
     db.session.commit()
 
     return jsonify({"message": "Book updated successfully"}), 200
+
+
+@book_bp.route('/book/search', methods=['POST'])
+def book_search():
+    data = request.json
+    title = data.get('title')
+
+    if not title:
+        return jsonify({"error": "Missing 'title' field"}), 400
+
+    books = Book.query.filter(Book.title.ilike(f'%{title}%')).all()
+
+    if not books:
+        return jsonify({"message": "No books found with that title"}), 404
+
+    books_data = []
+    for book in books:
+        books_data.append({
+            'id': book.id,
+            'title': book.title,
+            'author': book.author,
+            'book_info': book.book_info,
+            'subject': book.subject,
+            'rental': book.rental,
+            'user_id': book.user_id,
+            'img_url': book.img_url
+        })
+
+    return jsonify(books_data), 200

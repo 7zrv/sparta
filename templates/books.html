@@ -36,7 +36,7 @@
                 <div class="d-flex flex-row-reverse bd-highlight">
                     <!--회원 정보가 있을 경우(이미 로그인 상태인경우)-->
                     {% if context.user %}
-                    <a href="{{ url_for('books.get_users') }}" class="btn btn-secondary me-2 p-2" tabindex="-1"
+                    <a href="{{ url_for('book_view.get_users') }}" class="btn btn-secondary me-2 p-2" tabindex="-1"
                         role="button" aria-disabled="true">로그아웃</a>
                     <button type="button" class="btn btn-secondary me-2 p-2" data-bs-toggle="modal"
                         data-bs-target="#modifyAccountModal">회원정보변경</button>
@@ -174,7 +174,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="{{ url_for('users.login') }}">
+                        <form method="POST" action="{{ url_for('user_view.login') }}">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Email</label>
                                 <input type="text" name="email" class="form-control" placeholder="Email" required>
@@ -203,7 +203,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="{{ url_for('users.register_user') }}">
+                        <form method="POST" action="{{ url_for('user_view.register_user') }}">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Nickname</label>
                                 <input type="text" name="nickname" class="form-control" placeholder="Nickname" required>
@@ -244,7 +244,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="{{ url_for('users.update_user', user_id=context.user.user_id) }}">
+                        <form method="POST" action="{{ url_for('user_view.update_user', user_id=context.user.user_id) }}">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Nickname</label>
                                 <input type="text" name="nickname" class="form-control" placeholder="Nickname" value="{{ context.user.nickname }}" required>
@@ -276,5 +276,6 @@
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
             crossorigin="anonymous"></script>
 </body>
+    
 
 </html>

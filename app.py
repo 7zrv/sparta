@@ -21,6 +21,9 @@ def create_app():
     from apis import user_api
     app.register_blueprint(user_api.user_bp)
 
+    from views import user_view
+    app.register_blueprint(user_view.user_bp)
+
 
     @app.route("/")
     def home():

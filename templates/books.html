@@ -40,7 +40,13 @@
                         role="button" aria-disabled="true">로그아웃</a>
                     <button type="button" class="btn btn-secondary me-2 p-2" data-bs-toggle="modal"
                         data-bs-target="#modifyAccountModal">회원정보변경</button>
-
+                    <button type="button" class="btn btn-secondary me-2 p-2" data-bs-toggle="modal"
+                        data-bs-target="#">{{ context.user.nickname }}님 반갑습니다.</button>
+                    <form class="d-flex" method="POST" action="{{ url_for('book_view.book_search', user_id=context.user.user_id) }}">
+                        <input class="form-control me-2 p-2 bd-highlight" type="search" placeholder="Search" name="title"
+                            aria-label="Search">
+                        <button class="btn btn-secondary me-2 p-2 bd-highlight " type="submit">Search</button>
+                    </form>
                     <!--회원 정보가 없는 경우(로그인 해야하는 경우)-->
                     {% else %}
                     <button type="button" class="btn btn-secondary me-2 p-2" data-bs-toggle="modal"
@@ -48,13 +54,6 @@
                     <button type="button" class="btn btn-secondary me-2 p-2" data-bs-toggle="modal"
                         data-bs-target="#createAccountModal">회원가입</button>
                     {% endif %}
-
-                    <form class="d-flex">
-                        <input class="form-control me-2 p-2 bd-highlight" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <button class="btn btn-secondary me-2 p-2 bd-highlight " type="submit">Search</button>
-                    </form>
-
                 </div>
 
             </div>
@@ -129,42 +128,49 @@
         </div>
 
         <!-- createBookModal -->
+        {% if context.user %}
         <div class="modal fade" id="createBookModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">최애 음악</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">도서 등록</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="POST"
+                            action="{{ url_for('book_view.book_create', user_id=context.user.user_id) }}">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">유저</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                <label for="exampleInputEmail1" class="form-label">제목</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" name="title"
                                     aria-describedby="emailHelp">
-                                <div id="emailHelp" class="form-text">사용자(추천인)의 이름을 넣어주세요.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">노래 제목</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1">
-                                <div id="emailHelp" class="form-text">좋아하는 노래 제목을 넣어주세요.</div>
+                                <label for="exampleInputPassword1" class="form-label">저자</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1" name="author">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">가수</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1">
+                                <label for="exampleInputPassword1" class="form-label">책 소개</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1" name="book_info">
+                                <div id="emailHelp" class="form-text">간단하게 한줄로 입력해주세요.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">앨범 커버URL</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1">
+                                <label for="exampleInputPassword1" class="form-label">주제</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1" name="subject">
+                                <div id="emailHelp" class="form-text">간단한 단어로 입력해주세요.</div>
                             </div>
-                            <button type="submit" class="btn btn-danger">Submit</button>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">북커버 URL</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1" name="img_url">
+                                <div id="emailHelp" class="form-text">교보문고 북커버 이미지 URL</div>
+                            </div>
+                            <button type="submit" class="btn btn-danger">완료</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
+        {% endif %}
         <!-- loginModal -->
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -244,22 +250,27 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="{{ url_for('user_view.update_user', user_id=context.user.user_id) }}">
+                        <form method="POST"
+                            action="{{ url_for('user_view.update_user', user_id=context.user.user_id) }}">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Nickname</label>
-                                <input type="text" name="nickname" class="form-control" placeholder="Nickname" value="{{ context.user.nickname }}" required>
+                                <input type="text" name="nickname" class="form-control" placeholder="Nickname"
+                                    value="{{ context.user.nickname }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Email" value="{{ context.user.email }}" required>
+                                <input type="email" name="email" class="form-control" placeholder="Email"
+                                    value="{{ context.user.email }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Password" value="{{ context.user.password }}" required>
+                                <input type="password" name="password" class="form-control" placeholder="Password"
+                                    value="{{ context.user.password }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Phone Number</label>
-                                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ context.user.phone_number }}" required>
+                                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number"
+                                    value="{{ context.user.phone_number }}" required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">회원 정보 수정</button>
@@ -276,6 +287,6 @@
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
             crossorigin="anonymous"></script>
 </body>
-    
+
 
 </html>

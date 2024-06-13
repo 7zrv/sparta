@@ -1,9 +1,6 @@
 # app.py
 from flask import Flask, render_template
-from flask_login import LoginManager
 from db import db
-
-
 
 
 def create_app():
@@ -16,11 +13,7 @@ def create_app():
 
     db.init_app(app)
 
-    from auth import auth_bp, login_manager
-    app.register_blueprint(auth_bp)
-
-    login_manager.init_app(app)
-
+    # views
     from views import main_views
     app.register_blueprint(main_views.bp)
 
@@ -30,6 +23,7 @@ def create_app():
     from views import user_view
     app.register_blueprint(user_view.user_view_bp)
 
+    # apis
     from apis import book_api
     app.register_blueprint(book_api.book_bp)
 

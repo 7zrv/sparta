@@ -4,14 +4,16 @@ from db import db
 
 user_view_bp = Blueprint('user_view', __name__)
 
-@user_view_bp.route('/users')
-def get_users():
+@user_view_bp.route('/users/createAccount', methods=['POST'])
+def register_user():
 
+    print(request.form)
     nickname = request.form['nickname']
     email = request.form['email']
     password = request.form['password']
     phone_number = request.form['phone_number']
 
+    print(nickname, email, password, phone_number)
 
     if not all([nickname, email, password, phone_number]):
         return jsonify({"error": "Incomplete user information"}), 400
@@ -24,14 +26,14 @@ def get_users():
     db.session.add(new_user)
     db.session.commit()
 
-    return redirect(url_for('books.get_users'))
+    return redirect(url_for('book_view.get_users'))
 
-@user_bp.route('/user/login', methods=['POST'])
+@user_view_bp.route('/user/login', methods=['POST'])
 def login():
 
     email = request.form['email']
     password = request.form['password']
-    print(email, password)
+
     if not all([email, password]):
         return jsonify({"error": "Incomplete user information"}), 400
     
@@ -42,7 +44,7 @@ def login():
     
     return redirect(url_for('books.get_users', user_id=find_user.user_id))
 
-@user_bp.route('/user/<int:user_id>', methods=['POST'])
+@user_view_bp.route('/user/<int:user_id>', methods=['POST'])
 def update_user(user_id):
 
     nickname = request.form['nickname']

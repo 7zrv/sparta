@@ -10,12 +10,18 @@ def get_users():
     context = {
         "user": "",
     }
+
     if not user_id:
         return render_template('books.html', context=context)
     
-    user = User.query.filter_by(user_id=user_id).first().serialize()
-    print(user)
+    find_user = User.query.filter_by(user_id=user_id).first()
 
-    context['user'] = user
+    if not find_user:
+        return render_template('books.html', context=context)
+    
+    user_data = find_user.serialize()
+    print(user_data)
+
+    context['user'] = user_data
 
     return render_template('books.html', context=context)
